@@ -17,5 +17,9 @@ export const getCurrentDateTime = () => {
     minutes = `0${minutes}`;
   }
 
-  return {dayOfWeek, dayOfMonth, month, year, hours, minutes}
+  return { dayOfWeek, dayOfMonth, month, year, hours, minutes }
+}
+
+export const сalculateDewPoint = (temperature, humidity) => {
+  return ((temperature - 273.15) - ((1 - (humidity / 100)) / 0.05)).toFixed(1);
 }
