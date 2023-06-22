@@ -1,4 +1,4 @@
-import { getCurrentDateTime, сalculateDewPoint } from "./utils.js"
+import { getCurrentDateTime, сalculateDewPoint, getWeatherForecastData, getWindDirection } from "./utils.js"
 
 export const renderWidgetToday = (widget, data) => {
   const { dayOfWeek, dayOfMonth, month, year, hours, minutes } = getCurrentDateTime();
@@ -39,8 +39,10 @@ export const renderWidgetOther = (widget, data) => {
       <div class="widget__wind">
         <p class="widget__wind-title">Ветер</p>
         <p class="widget__wind-speed">${data.wind.speed} м/с</p>
-        <p class="widget__wind-text"><img style="transform: rotate(${data.wind.deg}deg); width: 24px;" src="./icon/arrow.svg" alt="wind direction"></p>
-
+        <p class="widget__wind-text">
+          <img class="widget__wind-img" style="transform: rotate(${data.wind.deg}deg);" src="./icon/arrow.svg" alt="wind direction">
+          <span>${getWindDirection(data.wind.deg)}</span>
+        </p>
       </div>
       <div class="widget__humidity">
         <p class="widget__humidity-title">Влажность</p>
@@ -49,7 +51,7 @@ export const renderWidgetOther = (widget, data) => {
       </div>
       <div class="widget__pressure">
         <p class="widget__pressure-title">Давление</p>
-        <p class="widget__pressure-value">${(data.main.grnd_level / 1.3332).toFixed(1)}</p>
+        <p class="widget__pressure-value">${(data.main.pressure / 1.3332).toFixed(1)}</p>
         <p class="widget__pressure-text">мм рт.ст.</p>
       </div>
     </div>
@@ -57,39 +59,62 @@ export const renderWidgetOther = (widget, data) => {
   )
 }
 
-export const renderWidgetForecast = (widget) => {
-  widget.insertAdjacentHTML(
-    'beforeend',
-    `
-    <ul class="widget__forecast">
-      <li class="widget__day-item">
-        <p class="widget__day-text">ср</p>
-        <img class="widget__day-img" src="./icon/02d.svg" alt="Погода">
-        <p class="widget__day-temp">18.4°/13.7°</p>
-      </li>
-      <li class="widget__day-item">
-        <p class="widget__day-text">чт</p>
-        <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-        <p class="widget__day-temp">17.3°/11.3°</p>
-      </li>
-      <li class="widget__day-item">
-        <p class="widget__day-text">пт</p>
-        <img class="widget__day-img" src="./icon/04d.svg" alt="Погода">
-        <p class="widget__day-temp">16.5°/10.9°</p>
-      </li>
-      <li class="widget__day-item">
-        <p class="widget__day-text">сб</p>
-        <img class="widget__day-img" src="./icon/01d.svg" alt="Погода">
-        <p class="widget__day-temp">18.6°/12.5°</p>
-      </li>
-      <li class="widget__day-item">
-        <p class="widget__day-text">вс</p>
-        <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-        <p class="widget__day-temp">17.3°/11.2°</p>
-      </li>
-    </ul>
-    `
-  )
+export const renderWidgetForecast = (widget, data) => {
+  
+  const widgetForecast = document.createElement('ul');
+  widgetForecast.classList.add('widget__forecast');
+  widget.append(widgetForecast);
+
+  const forecastData = getWeatherForecastData(data);
+
+  const items = forecastData.map((item) => {
+    const widgetDayItem = document.createElement('li');
+    widgetDayItem.classList.add('widget__day-item');
+    widgetDayItem.insertAdjacentHTML('beforeend',
+      `
+        <p class="widget__day-text">${item.dayOfWeek}</p>
+          <img class="widget__day-img" src="./icon/${item.weatherIcon}.svg" alt="Погода">
+        <p class="widget__day-temp">${(item.minTemp - 273.15).toFixed(1)}°/${(item.maxTemp - 273.15).toFixed(1)}°</p>
+      `
+    );
+    
+    return widgetDayItem;
+  })
+  
+  widgetForecast.append(...items)
+
+  // widget.insertAdjacentHTML(
+  //   'beforeend',
+  //   `
+  //   <ul class="widget__forecast">
+  //     <li class="widget__day-item">
+  //       <p class="widget__day-text">ср</p>
+  //       <img class="widget__day-img" src="./icon/02d.svg" alt="Погода">
+  //       <p class="widget__day-temp">18.4°/13.7°</p>
+  //     </li>
+  //     <li class="widget__day-item">
+  //       <p class="widget__day-text">чт</p>
+  //       <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
+  //       <p class="widget__day-temp">17.3°/11.3°</p>
+  //     </li>
+  //     <li class="widget__day-item">
+  //       <p class="widget__day-text">пт</p>
+  //       <img class="widget__day-img" src="./icon/04d.svg" alt="Погода">
+  //       <p class="widget__day-temp">16.5°/10.9°</p>
+  //     </li>
+  //     <li class="widget__day-item">
+  //       <p class="widget__day-text">сб</p>
+  //       <img class="widget__day-img" src="./icon/01d.svg" alt="Погода">
+  //       <p class="widget__day-temp">18.6°/12.5°</p>
+  //     </li>
+  //     <li class="widget__day-item">
+  //       <p class="widget__day-text">вс</p>
+  //       <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
+  //       <p class="widget__day-temp">17.3°/11.2°</p>
+  //     </li>
+  //   </ul>
+  //   `
+  // )
 }
 
 export const showError = (widget, err) => {

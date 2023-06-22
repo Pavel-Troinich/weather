@@ -23,6 +23,16 @@ export const weekdays = [
   'суббота'
 ];
 
+export const weekdaysShort = [
+  'вс',
+  'пн',
+  'вт',
+  'ср',
+  'чт',
+  'пт',
+  'сб'
+];
+
 export const API_URL = 'https://api.openweathermap.org/data/2.5/';
 
 export const API_KEY = '53299b11128e7f835a8ae75067c08283';
