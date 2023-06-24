@@ -8,6 +8,10 @@ export const renderWidgetToday = (widget, data) => {
     `
     <div class="widget__today">
       <div class="widget__date-block">
+        <p>
+          <img class="widget__refresh-img" src="./icon/refresh.svg" alt="refresh-txt" title="Обновить">
+          <span class="widget__refresh-txt">Обновлено:</span>
+        </p>
         <p class="widget__date">${dayOfMonth} ${month} ${year}</p>
         <p class="widget__time">${hours}:${minutes}</p>
         <p class="widget__day">${dayOfWeek}</p>
@@ -18,7 +22,7 @@ export const renderWidgetToday = (widget, data) => {
       <div class="widget__wheather">
         <div class="widget__city">
           <p>${data.name}</p>
-          <button class="widget__change-city" aria-label="Изменить город"></button>
+          <button class="widget__change-city" aria-label="Изменить город" title="Изменить город"></button>
         </div>
         <p class="widget__temp-big">${(data.main.temp - 273.15).toFixed(1)} °C</p>
         <p class="widget__felt">ощущается</p>
@@ -28,7 +32,6 @@ export const renderWidgetToday = (widget, data) => {
     `
   )
 }
-
 
 export const renderWidgetOther = (widget, data) => {
   
@@ -82,39 +85,6 @@ export const renderWidgetForecast = (widget, data) => {
   })
   
   widgetForecast.append(...items)
-
-  // widget.insertAdjacentHTML(
-  //   'beforeend',
-  //   `
-  //   <ul class="widget__forecast">
-  //     <li class="widget__day-item">
-  //       <p class="widget__day-text">ср</p>
-  //       <img class="widget__day-img" src="./icon/02d.svg" alt="Погода">
-  //       <p class="widget__day-temp">18.4°/13.7°</p>
-  //     </li>
-  //     <li class="widget__day-item">
-  //       <p class="widget__day-text">чт</p>
-  //       <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-  //       <p class="widget__day-temp">17.3°/11.3°</p>
-  //     </li>
-  //     <li class="widget__day-item">
-  //       <p class="widget__day-text">пт</p>
-  //       <img class="widget__day-img" src="./icon/04d.svg" alt="Погода">
-  //       <p class="widget__day-temp">16.5°/10.9°</p>
-  //     </li>
-  //     <li class="widget__day-item">
-  //       <p class="widget__day-text">сб</p>
-  //       <img class="widget__day-img" src="./icon/01d.svg" alt="Погода">
-  //       <p class="widget__day-temp">18.6°/12.5°</p>
-  //     </li>
-  //     <li class="widget__day-item">
-  //       <p class="widget__day-text">вс</p>
-  //       <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-  //       <p class="widget__day-temp">17.3°/11.2°</p>
-  //     </li>
-  //   </ul>
-  //   `
-  // )
 }
 
 export const showError = (widget, err) => {

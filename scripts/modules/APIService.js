@@ -1,4 +1,4 @@
-import { API_KEY, API_URL } from "./constants.js";
+import { API_KEY, API_URL, CITY_URL } from "./constants.js";
 
 export const fetchWeather = async (city) => {
   try {
@@ -18,4 +18,20 @@ export const fetchForecast = async (city) => {
   } catch (error) {
     return {success: false, error}
   }  
+}
+
+export const getCity = async () => {
+  try {
+    const response = await fetch(CITY_URL);
+
+    if (!response.ok) {
+      throw new Error('Ошибка определения города!');
+    }
+
+    const city = await response.text();
+    localStorage.city = city;
+    return city;
+  } catch (error) {
+    console.error(error);
+  }
 }

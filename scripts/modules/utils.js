@@ -39,7 +39,8 @@ export const getWeatherForecastData = (data) => {
   const forecast = data.list.filter(
     (item) =>
     new Date(item.dt_txt).getHours() === 12 && 
-    new Date(item.dt_txt).getDate() >= new Date().getDate()
+    new Date(item.dt_txt).getDate() >= new Date().getDate() &&
+    new Date(item.dt_txt).getDate() < new Date().getDate() + 4
   );
 
   const forecastData = forecast.map((item) => {

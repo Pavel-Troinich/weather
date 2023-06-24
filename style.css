@@ -32,6 +32,21 @@
   margin: 0;
 }
 
+.widget__refresh-img {
+  width: 14px;
+  cursor: pointer;
+  transition: all linear .2s;
+}
+
+.widget__refresh-img:active {
+  transform: rotate(360deg);  
+}
+
+.widget__refresh-txt {
+  
+  font-weight: 600;
+}
+
 .widget__today {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -48,7 +63,7 @@
 }
 
 .widget__time {
-  font-size: 28px;
+  font-size: 22px;
 }
 
 .widget__icon {
@@ -70,6 +85,7 @@
 .widget__city {
   padding-left: 25px;
   font-size: 14px;
+  font-weight: 600;
   display: flex;
   gap: 5px;
   align-items: center;
@@ -144,7 +160,7 @@
 
 .widget__forecast {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .widget__day-item {
